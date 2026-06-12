@@ -1,71 +1,160 @@
-/* Базовые сбросы и настройки страницы */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* 1. ГЛОБАЛЬНЫЙ СБРОС */
+/* Убираем стандартные отступы у всех элементов, чтобы верстка была предсказуемой */
+* { 
+  box-sizing: border-box; /* padding и border теперь входят в ширину элемента */
+  margin: 0; 
+  padding: 0; 
 }
 
+/* 2. ФОН СТРАНИЦЫ */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7f6;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  min-height: 100vh;
-  padding: 20px;
+  font-family: 'Montserrat', sans-serif; 
+  color: #515076;
+  
+  /* background: цвет/изображение позиция размер повторение */
+  background: url('images/bg_dandelions.png') center/cover fixed;
+  min-height: 100vh; /* Высота минимум во весь экран */
+  padding: 40px 20px; /* Отступы по краям страницы */
+  position: relative;
+  overflow-x: hidden; /* Убирает горизонтальную прокрутку */
 }
 
+/* Полупрозрачная плашка поверх фона для читаемости текста */
+body::before {
+  content: ""; 
+  position: absolute; 
+  inset: 0; /* То же самое, что top:0; left:0; right:0; bottom:0; */
+  background: rgba(244, 247, 246, 0.9); /* Белый с прозрачностью 90% */
+  z-index: 1; /* Плашка лежит ПОД контентом (z-index 2) */
+  pointer-events: none; /* Чтобы клики проходили сквозь плашку */
+}
+
+/* Контент лежит выше плашки */
+body > * { 
+  position: relative; 
+  z-index: 2; 
+}
+
+/* 3. ЗАГОЛОВОК */
+h1.page-title { 
+  font-size: 48px; 
+  text-align: center; 
+  margin-bottom: 40px; 
+  line-height: 1.1; 
+}
+
+/* 4. СЕТКА ТОВАРОВ (ИСПРАВЛЕННАЯ) */
 .products-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  max-width: 1200px;
-  width: 100%;
+  
+  /* САМОЕ ВАЖНОЕ: Центрирует ряды, если они не заполняют всю ширину */
+  justify-content: center; 
+  
+  /* Создает колонки: авто-подбор, минимум 280px, максимум - всё остальное место */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  
+  gap: 30px; /* Расстояние между карточками */
+  max-width: 1200px; /* Ограничение ширины */
+  width: 100%; /* Занимает всю ширину родителя */
+  margin: 0 auto; /* Выравнивает сам контейнер по центру экрана */
 }
 
-/* Стили карточки продукта */
+/* 5. КАРТОЧКА ТОВАРА */
 .product-card {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: white; 
+  border-radius: 16px; 
+  overflow: hidden; /* Обрезает всё, что вылезает за скругления */
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition: transform .3s ease, box-shadow .3s ease;
+  display: flex; 
+  flex-direction: column; /* Элементы внутри идут сверху вниз */
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+.product-card:hover { 
+  transform: translateY(-8px); 
+  box-shadow: 0 16px 32px rgba(0,0,0,.12); 
 }
 
-/* Изображение карточки */
-.card__image,
+/* 6. ИЗОБРАЖЕНИЕ */
 .product-card__image {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  width: 100%; 
+  height: 320px; 
+  object-fit: cover; /* Картинка заполняет блок, не сплющиваясь */
+  display: block; /* Убирает отступ снизу у картинки */
+  transition: transform .6s cubic-bezier(.25,1,.5,1);
+}
+.product-card:hover .product-card__image { 
+  transform: scale(1.05); /* Увеличение при наведении */
 }
 
-.product-card:hover .product-card__image {
-  transform: scale(1.05);
-}
-
-/* Надпись "Для нормальной кожи" */
+/* 7. ВНУТРЕННИЕ ЭЛЕМЕНТЫ */
 .product-card__skin-type {
   display: inline-block;
   margin: 15px 0 0 15px;
-  font-size: 14px;
-  color: #666;
-  background-color: #f0f0f0;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font: 600 13px/1 sans-serif; /* Шрифт: жирность 600, размер 13px, высота строки 1 */
+  color: #A5A3B9; 
+  background: #f0f0f0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
 }
 
-/* Заголовок */
-.product-card__title {
-  margin: 10px;
-  }
+.product-card__title { 
+  margin: 12px 15px 8px; 
+  font-size: 22px; 
+  line-height: 1.2; 
+  color: #333; 
+}
+
+.product-card__description { 
+  padding: 0 15px; 
+  font-size: 14px; 
+  color: #666; 
+  margin-bottom: 15px; 
+  flex-grow: 1; /* Растягивает блок описания, чтобы цена всегда была внизу */
+}
+
+.product-card__details { 
+  padding: 0 15px 10px; 
+}
+.product-card__details h3 {
+  font-size: 14px; 
+  text-transform: uppercase;
+  letter-spacing: 1px; 
+  color: #888; 
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eee; 
+  padding-bottom: 5px;
+}
+
+.product-card__composition-list { 
+  list-style: none; 
+  padding-left: 0; 
+  margin: 0; 
+}
+.product-card__composition-item { 
+  font-size: 13px; 
+  color: #777; 
+  margin-bottom: 4px; 
+}
+
+/* 8. ЦЕНА (ФУТЕР) */
+.product-card__footer {
+  padding: 15px; 
+  border-top: 1px solid #f0f0f0; 
+  margin-top: auto; /* Прижимает футер к низу карточки */
+  
+  display: flex; 
+  justify-content: space-between; /* "Цена:" слева, цифры справа */
+  align-items: center; /* Выравнивание по вертикали */
+}
+.product-card__price-label { 
+  font-size: 13px; 
+  color: #999; 
+  margin: 0; 
+}
+.product-card__price { 
+  font: 700 20px/1 sans-serif; /* Жирный шрифт, 20px */
+  color: #515076; 
+}
