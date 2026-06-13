@@ -1,41 +1,34 @@
-/* 1. ГЛОБАЛЬНЫЙ СБРОС */
-/* Убираем стандартные отступы у всех элементов, чтобы верстка была предсказуемой */
+
 * { 
-  box-sizing: border-box; /* padding и border теперь входят в ширину элемента */
+  box-sizing: border-box;
   margin: 0; 
   padding: 0; 
 }
 
-/* 2. ФОН СТРАНИЦЫ */
 body {
   font-family: 'Montserrat', sans-serif; 
   color: #515076;
-  
-  /* background: цвет/изображение позиция размер повторение */
   background: url('images/bg_dandelions.png') center/cover fixed;
-  min-height: 100vh; /* Высота минимум во весь экран */
-  padding: 40px 20px; /* Отступы по краям страницы */
+  min-height: 100vh; 
+  padding: 40px 20px;
   position: relative;
-  overflow-x: hidden; /* Убирает горизонтальную прокрутку */
+  overflow-x: hidden;
 }
 
-/* Полупрозрачная плашка поверх фона для читаемости текста */
 body::before {
   content: ""; 
   position: absolute; 
-  inset: 0; /* То же самое, что top:0; left:0; right:0; bottom:0; */
-  background: rgba(244, 247, 246, 0.9); /* Белый с прозрачностью 90% */
-  z-index: 1; /* Плашка лежит ПОД контентом (z-index 2) */
-  pointer-events: none; /* Чтобы клики проходили сквозь плашку */
+  inset: 0;
+  background: rgba(244, 247, 246, 0.9);
+  z-index: 1;
+  pointer-events: none;
 }
 
-/* Контент лежит выше плашки */
 body > * { 
   position: relative; 
   z-index: 2; 
 }
 
-/* 3. ЗАГОЛОВОК */
 h1.page-title { 
   font-size: 48px; 
   text-align: center; 
@@ -43,31 +36,24 @@ h1.page-title {
   line-height: 1.1; 
 }
 
-/* 4. СЕТКА ТОВАРОВ (ИСПРАВЛЕННАЯ) */
 .products-container {
   display: grid;
-  
-  /* САМОЕ ВАЖНОЕ: Центрирует ряды, если они не заполняют всю ширину */
   justify-content: center; 
-  
-  /* Создает колонки: авто-подбор, минимум 280px, максимум - всё остальное место */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  
-  gap: 30px; /* Расстояние между карточками */
-  max-width: 1200px; /* Ограничение ширины */
-  width: 100%; /* Занимает всю ширину родителя */
-  margin: 0 auto; /* Выравнивает сам контейнер по центру экрана */
+  gap: 30px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-/* 5. КАРТОЧКА ТОВАРА */
 .product-card {
   background: white; 
   border-radius: 16px; 
-  overflow: hidden; /* Обрезает всё, что вылезает за скругления */
+  overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
   transition: transform .3s ease, box-shadow .3s ease;
   display: flex; 
-  flex-direction: column; /* Элементы внутри идут сверху вниз */
+  flex-direction: column;
 }
 
 .product-card:hover { 
@@ -75,23 +61,22 @@ h1.page-title {
   box-shadow: 0 16px 32px rgba(0,0,0,.12); 
 }
 
-/* 6. ИЗОБРАЖЕНИЕ */
 .product-card__image {
   width: 100%; 
   height: 320px; 
-  object-fit: cover; /* Картинка заполняет блок, не сплющиваясь */
-  display: block; /* Убирает отступ снизу у картинки */
+  object-fit: cover;
+  display: block;
   transition: transform .6s cubic-bezier(.25,1,.5,1);
 }
+
 .product-card:hover .product-card__image { 
-  transform: scale(1.05); /* Увеличение при наведении */
+  transform: scale(1.05);
 }
 
-/* 7. ВНУТРЕННИЕ ЭЛЕМЕНТЫ */
 .product-card__skin-type {
   display: inline-block;
   margin: 15px 0 0 15px;
-  font: 600 13px/1 sans-serif; /* Шрифт: жирность 600, размер 13px, высота строки 1 */
+  font: 600 13px/1 sans-serif;
   color: #A5A3B9; 
   background: #f0f0f0;
   padding: 4px 10px;
@@ -112,12 +97,13 @@ h1.page-title {
   font-size: 14px; 
   color: #666; 
   margin-bottom: 15px; 
-  flex-grow: 1; /* Растягивает блок описания, чтобы цена всегда была внизу */
+  flex-grow: 1;
 }
 
 .product-card__details { 
   padding: 0 15px 10px; 
 }
+
 .product-card__details h3 {
   font-size: 14px; 
   text-transform: uppercase;
@@ -133,27 +119,28 @@ h1.page-title {
   padding-left: 0; 
   margin: 0; 
 }
+
 .product-card__composition-item { 
   font-size: 13px; 
   color: #777; 
   margin-bottom: 4px; 
 }
 
-/* 8. ЦЕНА (ФУТЕР) */
 .product-card__footer {
   padding: 15px; 
   border-top: 1px solid #f0f0f0; 
-  margin-top: auto; /* Прижимает футер к низу карточки */
-  
+  margin-top: auto;
   display: flex; 
-  justify-content: space-between; /* "Цена:" слева, цифры справа */
-  align-items: center; /* Выравнивание по вертикали */
+  justify-content: space-between;
+  align-items: center;
 }
+
 .product-card__price-label { 
   font-size: 13px; 
   color: #999; 
   margin: 0; 
 }
+
 .product-card__price { 
   font: 700 20px/1 sans-serif; /* Жирный шрифт, 20px */
   color: #515076; 
